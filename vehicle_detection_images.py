@@ -1,65 +1,67 @@
 import cv2
+from main import create_snap
  
 face_cascade = cv2.CascadeClassifier('cars.xml')
 
 
-frame = cars = []
-car_number = {}
 
-for i in range(1, 5):
+available = True
+count = 1
 
-	frame = cv2.imread("snaps/" + str(i) + ".png")
+while available:
 
-	# cv2.imshow("abc_color", frame)
-	# cv2.waitKey(0)
+	frame = cars = []
+	car_number = {}
 
-	gray = cv2.cvtColor(frame , cv2.COLOR_BGR2GRAY)
+	for i in range(1, 5):
+		frame = cv2.imread("snaps/" + str(i) + ".png")
 
-	# cv2.imshow("abc", gray)
-	# cv2.waitKey(0)
+		# cv2.imshow("abc_color", frame)
+		# cv2.waitKey(0)
 
-	cars_temp =  face_cascade.detectMultiScale(gray, 1.1, 1) 
-	# cars_2 = face_cascade.detectMultiScale(gray, 1.1, 2)
+		gray = cv2.cvtColor(frame , cv2.COLOR_BGR2GRAY)
 
-	# print cars_temp
+		# cv2.imshow("abc", gray)
+		# cv2.waitKey(0)
 
-	ind_lane_count = 0
-	for (x,y,w,h) in cars_temp:
-	    cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 0),2)
-	    ind_lane_count += 1
+		cars_temp =  face_cascade.detectMultiScale(gray, 1.1, 1) 
+		# cars_2 = face_cascade.detectMultiScale(gray, 1.1, 2)
 
-	
+		# print cars_temp
 
-	if i == 1:
-		frame0 = frame
-		car_number["direction0"] = ind_lane_count
-	elif i == 2:
-		frame1 = frame
-		car_number["direction1"] = ind_lane_count
-	elif i == 3:
-		frame2 = frame
-		car_number["direction2"] = ind_lane_count
-	else:
-		frame3 = frame
-		car_number["direction3"] = ind_lane_count
+		ind_lane_count = 0
+		for (x,y,w,h) in cars_temp:
+		    cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 0, 0),2)
+		    ind_lane_count += 1
 
-	# for (x,y,w,h) in cars_2:
-	#     cv2.rectangle(frame,(x,y),(x+w,y+h),(0,0,0),2)
-	#     ncars = ncars + 1
+		
 
-	# show result
-	# cv2.imshow("Result", frame)
-	# cv2.waitKey(0)
+		if i == 1:
+			frame0 = frame
+			car_number["direction0"] = ind_lane_count
+		elif i == 2:
+			frame1 = frame
+			car_number["direction1"] = ind_lane_count
+		elif i == 3:
+			frame2 = frame
+			car_number["direction2"] = ind_lane_count
+		else:
+			frame3 = frame
+			car_number["direction3"] = ind_lane_count
 
-for i in car_number:
-	print i, "=>",  car_number[i]
+		# for (x,y,w,h) in cars_2:
+		#     cv2.rectangle(frame,(x,y),(x+w,y+h),(0,0,0),2)
+		#     ncars = ncars + 1
 
-print car_number["direction0"]
+		# show result
+		# cv2.imshow("Result", frame)
+		# cv2.waitKey(0)
 
-cv2.imshow("direction0", frame0)
-cv2.imshow("direction1", frame1)
-cv2.imshow("direction2", frame2)
-cv2.imshow("direction3", frame3)
+	for i in car_number:
+			print i, "=>",  car_number[i]
+
+	available = create_snap(count)
+	count += 1
 
 cv2.waitKey(0)
 
